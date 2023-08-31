@@ -1,8 +1,8 @@
 package com.omtorney.myhometestapp.data.repository
 
-import com.omtorney.myhometestapp.data.local.model.Camera
-import com.omtorney.myhometestapp.data.local.model.Door
 import com.omtorney.myhometestapp.data.remote.KtorService
+import com.omtorney.myhometestapp.domain.model.Camera
+import com.omtorney.myhometestapp.domain.model.Door
 import com.omtorney.myhometestapp.domain.repository.Repository
 import com.omtorney.myhometestapp.util.Resource
 import io.realm.kotlin.Realm
@@ -52,8 +52,8 @@ class RepositoryImpl(
         return doorRepository.updateFavorite(door, favorite)
     }
 
-    override suspend fun updateDoorName(door: Door, newName: String) {
-        return doorRepository.updateName(door, newName)
+    override suspend fun updateDoorName(door: Door) {
+        return doorRepository.updateName(door)
     }
 
     override suspend fun deleteDoor(door: Door) {

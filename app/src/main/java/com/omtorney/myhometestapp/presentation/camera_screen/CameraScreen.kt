@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.omtorney.myhometestapp.data.local.model.Camera
+import com.omtorney.myhometestapp.domain.model.Camera
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

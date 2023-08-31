@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.omtorney.myhometestapp.R
-import com.omtorney.myhometestapp.data.local.model.Camera
-import com.omtorney.myhometestapp.data.local.model.Door
+import com.omtorney.myhometestapp.domain.model.Camera
+import com.omtorney.myhometestapp.domain.model.Door
 import com.omtorney.myhometestapp.presentation.camera_screen.CameraScreen
 import com.omtorney.myhometestapp.presentation.camera_screen.CameraScreenState
 import com.omtorney.myhometestapp.presentation.door_screen.DoorScreen
@@ -39,7 +39,7 @@ fun HomeScreen(
     onDoorRefresh: () -> Unit,
     onCameraFavoriteUpdate: (Camera) -> Unit,
     onDoorFavoriteUpdate: (Door, Boolean) -> Unit,
-    onDoorNameUpdate: (Door, String) -> Unit
+    onDoorNameUpdate: (Door) -> Unit
 ) {
     var tabState by remember { (mutableIntStateOf(0)) }
     val tabTitles = listOf(
@@ -84,7 +84,9 @@ fun HomeScreen(
             0 -> CameraScreen(
                 cameraState = cameraState,
                 onRefresh = onCameraRefresh,
-                onFavoriteClick = { onCameraFavoriteUpdate(it) }
+                onFavoriteClick = { camera ->
+                    onCameraFavoriteUpdate(camera)
+                }
             )
 
             1 -> DoorScreen(
@@ -93,8 +95,8 @@ fun HomeScreen(
                 onUpdateFavorite = { door, fav ->
                     onDoorFavoriteUpdate(door, fav)
                 },
-                onUpdateName = { door, name ->
-                    onDoorNameUpdate(door, name)
+                onUpdateName = { door ->
+                    onDoorNameUpdate(door)
                 }
             )
         }

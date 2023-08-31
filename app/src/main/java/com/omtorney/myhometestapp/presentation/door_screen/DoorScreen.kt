@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.omtorney.myhometestapp.data.local.model.Door
+import com.omtorney.myhometestapp.domain.model.Door
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -29,7 +29,7 @@ fun DoorScreen(
     doorState: DoorScreenState,
     onRefresh: () -> Unit,
     onUpdateFavorite: (Door, Boolean) -> Unit,
-    onUpdateName: (Door, String) -> Unit
+    onUpdateName: (Door) -> Unit
 ) {
     val context = LocalContext.current
     val groupedDoors = doorState.data.entries.toList()
@@ -70,8 +70,8 @@ fun DoorScreen(
                         onUpdateFavorite = { door, fav ->
                             onUpdateFavorite(door, fav)
                         },
-                        onUpdateName = { door, name ->
-                            onUpdateName(door, name)
+                        onUpdateName = { door ->
+                            onUpdateName(door)
                         }
                     )
                 }

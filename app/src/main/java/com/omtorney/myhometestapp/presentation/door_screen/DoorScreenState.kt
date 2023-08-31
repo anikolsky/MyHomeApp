@@ -1,6 +1,6 @@
 package com.omtorney.myhometestapp.presentation.door_screen
 
-import com.omtorney.myhometestapp.data.local.model.Door
+import com.omtorney.myhometestapp.domain.model.Door
 
 data class DoorScreenState(
     val data: Map<String, List<Door>> = emptyMap(),

@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.omtorney.myhometestapp.R
-import com.omtorney.myhometestapp.data.local.model.Camera
+import com.omtorney.myhometestapp.domain.model.Camera
 import com.omtorney.myhometestapp.presentation.theme.MyHomeTestAppTheme
 import com.omtorney.myhometestapp.presentation.theme.ShadowColor
 import com.omtorney.myhometestapp.presentation.theme.SurfaceColor
@@ -136,14 +136,14 @@ fun CameraCard(
 @Preview
 @Composable
 fun CameraCardPreview() {
-    val camera = Camera().apply {
-        id = 1
-        name = "Camera 1"
-        room = "Room 1"
-        preview = "url"
-        isFavorite = true
+    val camera = Camera(
+        id = 1,
+        name = "CameraRealm 1",
+        room = "Room 1",
+        preview = "url",
+        isFavorite = true,
         isRecording = true
-    }
+    )
     MyHomeTestAppTheme {
         Surface {
             CameraCard(camera, {})

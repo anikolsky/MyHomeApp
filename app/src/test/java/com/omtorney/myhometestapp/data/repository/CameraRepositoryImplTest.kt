@@ -1,6 +1,6 @@
 package com.omtorney.myhometestapp.data.repository
 
-import com.omtorney.myhometestapp.data.local.model.Camera
+import com.omtorney.myhometestapp.data.local.dto.CameraRealm
 import com.omtorney.myhometestapp.data.remote.KtorService
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
@@ -19,7 +19,7 @@ class CameraRepositoryImplTest {
     @Before
     fun setUp() {
         db = Realm.open(
-            RealmConfiguration.Builder(setOf(Camera::class))
+            RealmConfiguration.Builder(setOf(CameraRealm::class))
                 .inMemory()
                 .build()
         )
@@ -33,7 +33,7 @@ class CameraRepositoryImplTest {
 
     @Test
     fun `Insert list of cameras and get`() = runBlocking {
-        val camera = Camera().apply {
+        val camera = CameraRealm().apply {
             id = 100
             name = "camera 1"
         }

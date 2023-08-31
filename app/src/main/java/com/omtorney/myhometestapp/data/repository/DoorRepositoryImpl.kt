@@ -1,10 +1,11 @@
 package com.omtorney.myhometestapp.data.repository
 
 import android.util.Log
-import com.omtorney.myhometestapp.data.local.database.getRealmDatabase
-import com.omtorney.myhometestapp.data.local.model.Door
+import com.omtorney.myhometestapp.data.local.dto.DoorRealm
 import com.omtorney.myhometestapp.data.remote.KtorService
 import com.omtorney.myhometestapp.domain.mapper.toDoor
+import com.omtorney.myhometestapp.domain.mapper.toDoorRealm
+import com.omtorney.myhometestapp.domain.model.Door
 import com.omtorney.myhometestapp.util.Resource
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.realm.kotlin.Realm
@@ -32,14 +33,16 @@ class DoorRepositoryImpl(
     }
 
     override suspend fun getLocal(): Flow<List<Door>> {
-        return db.query<Door>().asFlow().map { it.list }
+        return db.query<DoorRealm>().asFlow().map { realmResults ->
+            realmResults.list.map { it.toDoor() }
+        }
     }
 
     override suspend fun add(doors: List<Door>) {
         doors.forEach { door ->
             db.write {
                 copyToRealm(
-                    instance = door,
+                    instance = door.toDoorRealm(),
                     updatePolicy = UpdatePolicy.ALL
                 )
             }
@@ -48,23 +51,23 @@ class DoorRepositoryImpl(
 
     override suspend fun updateFavorite(door: Door, favorite: Boolean) {
         db.write {
-            query<Door>(query = "id == $0", door.id).first().find()?.apply {
+            query<DoorRealm>(query = "id == $0", door.id).first().find()?.apply {
                 isFavorite = !isFavorite
             }
         }
     }
 
-    override suspend fun updateName(door: Door, newName: String) {
+    override suspend fun updateName(door: Door) {
         db.write {
-            query<Door>(query = "id == $0", door.id).first().find()?.apply {
-                name = newName
+            query<DoorRealm>(query = "id == $0", door.id).first().find()?.apply {
+                name = door.name
             }
         }
     }
 
     override suspend fun delete(door: Door) {
         db.write {
-            query<Door>(query = "id == $0", door.id).first().find()?.let { door ->
+            query<DoorRealm>(query = "id == $0", door.id).first().find()?.let { door ->
                 try {
                     delete(door)
                 } catch (e: Exception) {

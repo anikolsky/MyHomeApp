@@ -1,6 +1,6 @@
 package com.omtorney.myhometestapp.presentation.camera_screen
 
-import com.omtorney.myhometestapp.data.local.model.Camera
+import com.omtorney.myhometestapp.domain.model.Camera
 
 data class CameraScreenState(
     val data: Map<String, List<Camera>> = emptyMap(),

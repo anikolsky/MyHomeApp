@@ -28,6 +28,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +44,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.omtorney.myhometestapp.R
-import com.omtorney.myhometestapp.data.local.model.Door
+import com.omtorney.myhometestapp.data.local.dto.DoorRealm
+import com.omtorney.myhometestapp.domain.model.Door
 import com.omtorney.myhometestapp.presentation.theme.ShadowColor
 import com.omtorney.myhometestapp.presentation.theme.SurfaceColor
 import kotlin.math.roundToInt
@@ -53,7 +55,7 @@ import kotlin.math.roundToInt
 fun DoorCard(
     door: Door,
     onUpdateFavorite: (Door, Boolean) -> Unit,
-    onUpdateName: (Door, String) -> Unit
+    onUpdateName: (Door) -> Unit
 ) {
     val swipeableState = rememberSwipeableState(0)
 //    val screenSizeDp = LocalConfiguration.current.screenWidthDp.dp
@@ -62,7 +64,10 @@ fun DoorCard(
     val anchors = mapOf(0f to 0, -250f to 1)
     var editDialogState by remember { mutableStateOf(false) }
     var doorName by remember { mutableStateOf(door.name) }
-    var doorFavorite by remember { mutableStateOf(door.isFavorite) }
+
+    LaunchedEffect(door.name) {
+        doorName = door.name
+    }
 
     Box(
         modifier = Modifier
@@ -91,7 +96,7 @@ fun DoorCard(
                     painterResource(R.drawable.ic_favorite_inactive)
                 },
                 contentDescription = stringResource(R.string.favorite),
-                modifier = Modifier.clickable { onUpdateFavorite(door, doorFavorite) }
+                modifier = Modifier.clickable { onUpdateFavorite(door, door.isFavorite) }
             )
         }
         Card(
@@ -181,7 +186,7 @@ fun DoorCard(
             confirmButton = {
                 Button(
                     onClick = {
-                        onUpdateName(door, doorName)
+                        onUpdateName(door.copy(name = doorName))
                         editDialogState = false
                     },
                     shape = RoundedCornerShape(12.dp)

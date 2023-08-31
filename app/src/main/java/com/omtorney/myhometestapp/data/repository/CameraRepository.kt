@@ -1,6 +1,6 @@
 package com.omtorney.myhometestapp.data.repository
 
-import com.omtorney.myhometestapp.data.local.model.Camera
+import com.omtorney.myhometestapp.domain.model.Camera
 import com.omtorney.myhometestapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 

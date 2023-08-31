@@ -1,9 +1,11 @@
 package com.omtorney.myhometestapp.data.repository
 
 import android.util.Log
-import com.omtorney.myhometestapp.data.local.model.Camera
+import com.omtorney.myhometestapp.data.local.dto.CameraRealm
 import com.omtorney.myhometestapp.data.remote.KtorService
 import com.omtorney.myhometestapp.domain.mapper.toCamera
+import com.omtorney.myhometestapp.domain.mapper.toCameraRealm
+import com.omtorney.myhometestapp.domain.model.Camera
 import com.omtorney.myhometestapp.util.Resource
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.realm.kotlin.Realm
@@ -31,14 +33,16 @@ class CameraRepositoryImpl(
     }
 
     override suspend fun getLocal(): Flow<List<Camera>> {
-        return db.query<Camera>().asFlow().map { it.list }
+        return db.query<CameraRealm>().asFlow().map { realmResults ->
+            realmResults.list.map { it.toCamera() }
+        }
     }
 
     override suspend fun add(cameras: List<Camera>) {
         cameras.forEach { camera ->
             db.write {
                 copyToRealm(
-                    instance = camera,
+                    instance = camera.toCameraRealm(),
                     updatePolicy = UpdatePolicy.ALL
                 )
             }
@@ -47,7 +51,7 @@ class CameraRepositoryImpl(
 
     override suspend fun update(cameraId: Int) {
         db.write {
-            query<Camera>(query = "id == $0", cameraId).first().find()?.apply {
+            query<CameraRealm>(query = "id == $0", cameraId).first().find()?.apply {
                 isFavorite = !isFavorite
             }
         }
@@ -55,7 +59,7 @@ class CameraRepositoryImpl(
 
     override suspend fun delete(camera: Camera) {
         db.write {
-            query<Camera>(query = "id == $0", camera.id).first().find()?.let { camera ->
+            query<CameraRealm>(query = "id == $0", camera.id).first().find()?.let { camera ->
                 try {
                     delete(camera)
                 } catch (e: Exception) {

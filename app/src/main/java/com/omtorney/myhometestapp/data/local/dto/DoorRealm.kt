@@ -1,9 +1,9 @@
-package com.omtorney.myhometestapp.data.local.model
+package com.omtorney.myhometestapp.data.local.dto
 
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 
-class Door : RealmObject {
+class DoorRealm : RealmObject {
     @PrimaryKey
     var id: Int = 0
     var name: String = ""

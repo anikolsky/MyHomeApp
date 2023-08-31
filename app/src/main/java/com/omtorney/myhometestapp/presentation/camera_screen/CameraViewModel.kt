@@ -2,7 +2,7 @@ package com.omtorney.myhometestapp.presentation.camera_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.omtorney.myhometestapp.data.local.model.Camera
+import com.omtorney.myhometestapp.domain.model.Camera
 import com.omtorney.myhometestapp.domain.repository.Repository
 import com.omtorney.myhometestapp.util.Resource
 import kotlinx.coroutines.Dispatchers

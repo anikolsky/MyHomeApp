@@ -1,7 +1,7 @@
 package com.omtorney.myhometestapp.domain.repository
 
-import com.omtorney.myhometestapp.data.local.model.Camera
-import com.omtorney.myhometestapp.data.local.model.Door
+import com.omtorney.myhometestapp.domain.model.Camera
+import com.omtorney.myhometestapp.domain.model.Door
 import com.omtorney.myhometestapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -17,6 +17,6 @@ interface Repository {
     suspend fun getLocalDoors(): Flow<List<Door>>
     suspend fun addDoors(doors: List<Door>)
     suspend fun updateDoorFavorite(door: Door, favorite: Boolean)
-    suspend fun updateDoorName(door: Door, newName: String)
+    suspend fun updateDoorName(door: Door)
     suspend fun deleteDoor(door: Door)
 }

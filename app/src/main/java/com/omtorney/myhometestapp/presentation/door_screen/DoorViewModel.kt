@@ -2,7 +2,7 @@ package com.omtorney.myhometestapp.presentation.door_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.omtorney.myhometestapp.data.local.model.Door
+import com.omtorney.myhometestapp.domain.model.Door
 import com.omtorney.myhometestapp.domain.repository.Repository
 import com.omtorney.myhometestapp.util.Resource
 import kotlinx.coroutines.Dispatchers
@@ -69,9 +69,9 @@ class DoorViewModel(
         }
     }
 
-    fun updateName(door: Door, newName: String) {
+    fun updateName(door: Door) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateDoorName(door, newName)
+            repository.updateDoorName(door)
         }
     }
 }
